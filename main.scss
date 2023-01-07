@@ -1,0 +1,495 @@
+@use "./layout/global";
+@use "./pages/contact";
+@use "./variables/variables" ;
+// or 
+// @use "./variables/variables" as * ;
+// $alt_color:red;
+
+$company:"elzero";
+$position :"left";
+.add-#{$company}-#{unique-id}
+{
+  font-size: 20 px ;
+  background-image: url("imags/#{$company}.png");
+  #{$position}:0;
+}
+
+.heder
+{
+    color:variables.$alt_color;
+}
+
+.footor
+{
+    $alt_color:black !global;
+    background-color:variables.$alt_color ; 
+}
+
+$max_mobile :"max-width :"20px"" ;
+
+@media ($max_mobile)
+{
+    .sidebar
+    {
+       padding: 20px;
+    }
+
+}
+
+.element{ >
+{
+    .element-one
+    {
+        font-size: 50px;
+    }
+}
+    .not-direct-child
+    {
+       font-weight: 30px; 
+    }
+}
+.box
+{
+    .title
+    {
+         color:black;
+    }
+
+    &.grren
+    {
+        color:white
+    }
+    &:hover .title
+    {
+        background-color: aqua;
+    }
+    :not(&)
+    {
+        font-weight: 500;
+    }
+    [dir=rtl] &
+    {
+     direction: rtl;
+    }
+    font: {
+        size: 100px;
+        weight:50px;
+    };
+    margin: auto{
+        top:50px;
+        bottom: 30px;
+    };
+    .main-box
+    {
+        font-size: 20px;
+        font-weight: 300;
+         
+    }
+    .ads
+    {
+        @extend .main-box ;
+        color: aquamarine;
+    }
+    
+    .adser
+    {
+        @extend %main;
+       padding: auto;
+    }
+
+    
+}
+%main
+    {
+        background-color: rgb(8, 5, 190);
+        padding: 15px;
+        border: 1px solid #ccc;
+    }
+
+// $theme:"dark";
+// .page
+// {
+//     @if $theme=="light"
+//     {
+//         background-color: aliceblue;
+//         color:#444;
+//     }
+//     @else
+//     {
+//         background-color: rgb(24, 141, 243);
+//         color:white;
+//     }
+// }
+
+$rounded : true ;
+.box_raduis
+{
+    @extend %main ;
+    border-radius: if($rounded,6px,null);
+}
+$direction:"bottom";
+.arrow-div
+{
+    @extend  %main ;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 300px;
+    margin: 50px auto;
+    position: relative;
+    &::before
+    {
+        content:"";
+        position: absolute;
+        border: 20px solid transparent;
+        
+        @if $direction == 'top'
+        {
+            top:-40px;
+            left:50%;
+            transform: translateX(-50%);
+            border-bottom-color:red;
+
+        }
+        @else if $direction == 'right' 
+        {
+            right: -40px;
+            border-left-color:red;
+            
+        }
+        @else if $direction == 'right' 
+        {
+            right: -40px;
+            border-left-color:red;
+            
+        }
+        @else if  $direction == 'left' 
+        {
+            left:-40px;
+            border-right-color:red;
+        }
+        @else if  $direction == 'bottom' 
+        {
+           bottom: -40px; 
+           border-top-color:red;
+        }
+        
+
+    }
+
+
+}
+
+
+@mixin circle ($dimentions)
+{
+    border-radius: 50%;
+    width:$dimentions;
+    height:$dimentions;
+}
+@mixin list-rest
+{
+  padding: 30px;
+  margin: 30px
+}
+
+.cicle-100
+{
+    @include circle(100px);
+    @include list-rest;
+    background-color: aqua;
+    color: rgb(172, 175, 175);
+}
+
+
+///////////////////////////// for //////////////////////////////////////
+
+@for $i from 1 through 10 
+{
+    .class-#{$i}
+    {
+        font-size:#{$i + 10px}
+    }
+
+}
+$dimanstions:0 ;
+@for $i from 1 through 10 
+{
+    .circle-#{100 + $dimanstions}
+    {
+        width:$dimanstions + 100px;
+        height: $dimanstions + 50px;
+        border-radius: 50%;
+    }
+    $dimanstions: $dimanstions +100
+}
+
+
+//////////////// each /////////////////////////
+
+$themes:red,green,blue;
+
+@each $theme in $themes
+{
+    .#{$theme}-theme
+    {
+        .product{
+            background-color: white;
+            border-bottom: 2px solid  $theme;
+        }
+        .title
+        {
+            color:$theme;
+            font-weight:bold;
+        }
+    }
+}
+
+$socials:("facebook":"blue","yotube":"red" ,"twiter" :"blue");
+
+@each $name ,$color  in $socials
+{
+    .#{$name}
+    {
+        background-color: $color ;
+        color:white;
+        &::before
+        {
+            content:$name
+        }
+    }
+
+}
+
+
+$class:"one" 20px red , "two" 15px green , "three" 30px blue ;
+@each $class ,$font , $color  in $class
+{
+    .#{$class}
+    {
+        font-size:$font ;
+        background-color: $color;
+        color:white;
+        font: $font / 2px;
+    }
+}
+
+
+/////////////////////////////////// while /////////////////////////////////////////
+$start :1 ;
+@while $start <= 10 {
+    .width-#{$start}
+    {
+        width:$start + 1;
+        height: ($start * 100 px ) /2;
+    } 
+    $start :  $start + 1
+ 
+}
+
+//////////////////////////////////// how to make grid system by sass /////////////////////////////// 
+
+$grid_cols : 12 ;
+
+@for $i from 1 through $grid_cols
+{
+    .clo-#{$i}
+    {
+        width:percentage($i/$grid_cols )
+    }
+}
+
+.clo-5
+{
+    background-color: aqua;
+}
+
+
+///////////////////////////// funcation ////////////////////////////////////////////
+
+@function calwidth ($size)
+{
+  @return $size/2 ;
+}
+
+@function calculate($sizes...)
+{
+    $toatal:0 ;
+    @each $size in $sizes
+    {
+        $toatal: $toatal  + $size ;
+    }
+
+  @return $toatal ; 
+}
+
+$width:200px ;
+.element 
+{
+    // width:$width;
+    width: calwidth(200);  
+    height: half($width);
+    top:calculate(100,100,100)
+}
+
+////////////// PRACTISE  of mixen  ////////////////////////////////
+/// animation for cover /////////
+
+@mixin overlay ($color,$opacity)
+{
+    position: absolute;
+    left:0;
+    top:0;
+    width:100%;
+    height: 100%;
+    background-color: rgba($color,$opacity )
+}
+
+
+
+////////////////////  animation fade in ////////////////////////////////////
+
+@mixin keyf ($anim-name)
+{
+    @-webkit-keyframes #{$anim-name}
+    {
+        @content
+    }
+    @keyframes #{$anim-name}
+    {
+        @content
+    }
+    
+}
+
+@include keyf(fade-in)
+{
+    from
+    {
+        opacity: 0;
+    }
+    to
+    {
+        opacity: 1;
+    }
+}
+
+// @include keyf(go-up)
+// {
+//     from
+//     {
+//         bottom: 0px;
+//     }
+//     to
+//     {
+//         bottom: 100px;
+        
+//     }
+// }
+
+.badf
+{
+   @include overlay(black,0.5) ; 
+   width:300px ; 
+   height: 100px;
+  
+  
+}
+@include keyf(go-up)
+{
+    from
+    {
+        bottom: 0px;
+    }
+    to
+    {
+        bottom: 100px;
+        
+    }
+}
+
+
+/////////////////////// mixan and if condation  ///////////////////////////////
+
+@mixin breakpoints ($point)
+{
+   
+    @if $point == mobile 
+    {
+        @media (max-width:767px)
+        {
+            @content 
+        }
+    }
+    @else if  $point ==  small  
+    {
+        @media (min-width:768px) and (max-width:991px)
+        {
+            @content 
+        }
+
+    }
+    @else if  $point == meduim 
+    {
+        @media (min-width : 992px) and (max-width:1199px)
+        {
+            @content
+        }
+    } 
+    @else if  $point == large 
+    {
+        @media  (max-width:1200px)
+        {
+            @content
+        }   
+    } 
+   
+
+    
+}
+.media
+{
+    @include breakpoints(mobile)
+    {
+        font-size: 5px;
+    }
+    @include breakpoints(small)
+    {
+        padding: 20px;
+    }
+    @include breakpoints(large )
+    {
+       color: red;
+    }
+    @include breakpoints(medium )
+    {
+       color: rgb(173, 50, 255);
+    }
+
+
+
+}
+
+
+
+
+
+
+
+    
+
+
+
+
+
+///////////////////// comments //////////////////////
+
+////////////////////// enas ////////////////////////////////
+/* enas madina */
+/*! amira madina */
+
+
+
+
